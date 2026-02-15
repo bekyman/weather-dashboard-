@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { getWeather } from "./services/weatherService";
+import { getWeather } from "./services/weatherServices";
 
 export default function App() {
 
