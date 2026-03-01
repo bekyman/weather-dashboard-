@@ -1,57 +1,38 @@
 export default function ForecastList({ forecast }) {
-  const dailyMap = {};
-  forecast.forEach((item) => {
-    const day = new Date(item.dt_txt).toLocaleDateString(undefined, {
-      weekday: "long",
-    });
-    if (!dailyMap[day]) dailyMap[day] = [];
-    dailyMap[day].push(item);
-  });
-
-  const days = Object.keys(dailyMap).slice(0, 5);
-
-  const dailyForecast = days.map((day) => {
-    const items = dailyMap[day];
-    const temps = items.map((i) => i.main.temp);
-    const minTemp = Math.round(Math.min(...temps));
-    const maxTemp = Math.round(Math.max(...temps));
-
-    const iconIndex = Math.floor(items.length / 2);
-    const icon = items[iconIndex].weather[0].icon;
-    const description = items[iconIndex].weather[0].description;
-
-    return { day, minTemp, maxTemp, icon, description };
-  });
+  if (!forecast || forecast.length === 0) return null;
 
   return (
-    <div className="mt-8 max-w-6xl mx-auto px-4 relative">
-      {/* Optional fade edges */}
-      <div className="pointer-events-none absolute top-0 left-0 h-full w-8 bg-gradient-to-r from-white/80 to-transparent z-10" />
-      <div className="pointer-events-none absolute top-0 right-0 h-full w-8 bg-gradient-to-l from-white/80 to-transparent z-10" />
-
-      <div className="flex gap-5 overflow-x-auto pb-4 snap-x snap-mandatory scrollbar-thin">
-        {dailyForecast.map((item) => (
-          <div
-            key={item.day}
-            className="flex-shrink-0 snap-start
-                       bg-gradient-to-br from-blue-200 via-blue-100 to-white
-                       p-5 rounded-2xl shadow-lg min-w-[140px] text-center
-                       hover:shadow-2xl hover:scale-105 transition transform
-                       md:min-w-[160px] lg:min-w-[180px]"
+    <div className="w-full mt-2">
+      <h3 className="text-sm font-semibold text-blue-200 uppercase tracking-[0.2em] mb-4 px-2">
+        5-Day Forecast
+      </h3>
+      
+      
+      <div className="flex gap-4 overflow-x-auto pb-4 scrollbar-hide md:grid md:grid-cols-5">
+        {forecast.map((day, index) => (
+          <div 
+            key={index} 
+            className="flex flex-col items-center justify-between min-w-[100px] bg-white/10 backdrop-blur-md border border-white/10 rounded-2xl p-4 shadow-lg transition-transform hover:scale-105"
           >
-            <p className="font-semibold text-sm">{item.day}</p>
+            
+            <span className="text-sm font-medium text-blue-100">
+              {day.day}
+            </span>
 
-            <img
-              src={`https://openweathermap.org/img/wn/${item.icon}@2x.png`}
-              alt={item.description}
-              className="mx-auto"
-            />
+            
+            <span className="text-3xl my-3 drop-shadow-sm">
+              {day.condition === "Rain" ? "🌧️" : day.condition === "Clear" ? "☀️" : "☁️"}
+            </span>
 
-            <p className="text-lg font-bold mt-2">
-              {item.maxTemp}°C / {item.minTemp}°C
-            </p>
-
-            <p className="text-xs text-gray-700 capitalize mt-1">{item.description}</p>
+            
+            <div className="flex flex-col items-center">
+              <span className="text-lg font-bold text-white">
+                {Math.round(day.temp)}°
+              </span>
+              <span className="text-xs text-blue-300 capitalize">
+                {day.condition}
+              </span>
+            </div>
           </div>
         ))}
       </div>
