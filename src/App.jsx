@@ -7,7 +7,8 @@ import ErrorMessage from "./components/ErrorMessage";
 import RefreshButton from "./components/RefreshButton";
 
 export default function App() {
-  const [city, setCity] = useState("Addis Ababa");
+  // 1. Change the initial state to an empty string
+  const [city, setCity] = useState("");
   const { weather, forecast, error, loading, refresh } = useWeather(city);
 
   return (
@@ -17,12 +18,22 @@ export default function App() {
       <SearchBar onSearch={setCity} />
 
       {loading && <p className="mt-4">Loading...</p>}
+      
+      {/* 2. Show a friendly prompt if no city is selected yet */}
+      {!city && !loading && (
+        <p className="mt-10 text-gray-600">Enter a city to see the current weather!</p>
+      )}
+
       <ErrorMessage message={error} />
 
-      <WeatherCard weather={weather} />
-      <ForecastList forecast={forecast} />
-
-      <RefreshButton onClick={refresh} />
+      {/* 3. Only render these if 'weather' or 'city' actually exists */}
+      {city && !error && (
+        <>
+          <WeatherCard weather={weather} />
+          <ForecastList forecast={forecast} />
+          <RefreshButton onClick={refresh} />
+        </>
+      )}
     </div>
   );
 }
