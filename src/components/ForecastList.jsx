@@ -1,11 +1,14 @@
 export default function ForecastList({ forecast }) {
   return (
-    <div className="mt-6">
-      <div className="flex gap-4 overflow-x-auto snap-x snap-mandatory pb-2">
+    <div className="mt-8 max-w-6xl mx-auto px-4">
+      <div className="flex gap-5 overflow-x-auto pb-4 scrollbar-thin">
         {forecast.map((item) => (
           <div
             key={item.dt}
-            className="flex-shrink-0 snap-start bg-white p-4 rounded-2xl shadow-md min-w-[130px] text-center hover:scale-105 transition-transform duration-200"
+            className="flex-shrink-0 bg-white/80 backdrop-blur-md 
+                       p-5 rounded-2xl shadow-md 
+                       min-w-[140px] text-center 
+                       hover:shadow-lg transition"
           >
             <p className="font-semibold text-sm">
               {new Date(item.dt_txt).toLocaleDateString(undefined, {
@@ -21,10 +24,6 @@ export default function ForecastList({ forecast }) {
 
             <p className="text-lg font-bold">
               {Math.round(item.main.temp)}°C
-            </p>
-
-            <p className="text-xs text-gray-500 capitalize">
-              {item.weather[0].description}
             </p>
           </div>
         ))}
