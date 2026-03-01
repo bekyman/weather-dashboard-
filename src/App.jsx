@@ -25,7 +25,7 @@ export default function App() {
 
       <ErrorMessage message={error} />
 
-      {/* 3. Only render these if 'weather' or 'city' actually exists */}
+      
       {city && !error && (
         <>
           <WeatherCard weather={weather} />
