@@ -27,7 +27,7 @@ export default function ForecastList({ forecast }) {
            
             <div className="flex flex-col items-center">
               <span className="text-lg font-bold text-white">
-                {Math.round(day.temp)}°
+                {Math.round(day?.temp?.day || day?.main?.temp || 0)}°
               </span>
               <span className="text-xs text-blue-300 capitalize">
                 {day.condition}
