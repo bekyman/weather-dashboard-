@@ -19,12 +19,12 @@ export default function ForecastList({ forecast }) {
               {day.day}
             </span>
 
-            
+           
             <span className="text-3xl my-3 drop-shadow-sm">
               {day.condition === "Rain" ? "🌧️" : day.condition === "Clear" ? "☀️" : "☁️"}
             </span>
 
-            
+           
             <div className="flex flex-col items-center">
               <span className="text-lg font-bold text-white">
                 {Math.round(day.temp)}°
