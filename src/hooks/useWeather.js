@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { getCurrentWeather, getForecast } from "../api/weatherServices";
 
 export default function useWeather(city) {
@@ -7,7 +7,8 @@ export default function useWeather(city) {
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
 
-  async function fetchWeather() {
+  
+  const fetchWeather = useCallback(async () => {
     if (!city) return;
 
     try {
@@ -17,26 +18,45 @@ export default function useWeather(city) {
       const current = await getCurrentWeather(city);
       const forecastData = await getForecast(city);
 
+      
       setWeather(current);
-      setForecast(forecastData.list.slice(0, 5));
+
+      
+      const dailyForecast = forecastData.list
+        .filter((reading) => reading.dt_txt.includes("12:00:00"))
+        .map((item) => ({
+          day: new Date(item.dt * 1000).toLocaleDateString("en-US", { weekday: "short" }),
+          
+          temp: item.main?.temp ?? 0, 
+          condition: item.weather[0]?.main ?? "Clear",
+          icon: item.weather[0]?.icon,
+        }));
+
+      setForecast(dailyForecast);
     } catch (err) {
-      setError(err.message);
+      console.error("Weather Fetch Error:", err);
+      setError(err.message === "Failed to fetch" 
+        ? "Network error. Check your API key and HTTPS connection." 
+        : err.message
+      );
       setWeather(null);
+      setForecast([]);
     } finally {
       setLoading(false);
     }
-  }
+  }, [city]);
 
-  
+  // 
   useEffect(() => {
     fetchWeather();
-  }, [city]);
+  }, [fetchWeather]);
 
-  
+  /
   useEffect(() => {
+    if (!city) return;
     const interval = setInterval(fetchWeather, 300000);
     return () => clearInterval(interval);
-  }, [city]);
+  }, [city, fetchWeather]);
 
   return { weather, forecast, error, loading, refresh: fetchWeather };
 }
