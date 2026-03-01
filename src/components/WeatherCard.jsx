@@ -1,32 +1,30 @@
 export default function WeatherCard({ weather }) {
   if (!weather) return null;
 
+  const icon = `https://openweathermap.org/img/wn/${weather.weather[0].icon}@2x.png`;
+
   return (
-    <div className="bg-white/10 backdrop-blur-lg border border-white/20 rounded-3xl p-8 w-full shadow-2xl">
-     
-      <div className="text-center mb-6">
-        <h2 className="text-3xl font-bold tracking-wide">{weather.name}</h2>
-        <p className="text-blue-200 text-lg mt-1 capitalize">{weather.condition}</p>
-      </div>
+    <div className="bg-white rounded-2xl shadow-lg p-6 w-full max-w-md text-center">
+      <h2 className="text-2xl font-bold">{weather.name}</h2>
 
-      
-      <div className="flex justify-center items-center mb-8 gap-4">
-        
-        <span className="text-6xl drop-shadow-lg">☁️</span>
-        <span className="text-7xl font-light tracking-tighter">
-          {Math.round(weather.temp)}°
-        </span>
-      </div>
+      <img src={icon} className="mx-auto" />
 
-     
-      <div className="grid grid-cols-2 gap-4 border-t border-white/20 pt-6">
-        <div className="flex flex-col items-center bg-white/5 rounded-xl p-3">
-          <span className="text-xs text-blue-200 uppercase tracking-widest mb-1">Humidity</span>
-          <span className="text-xl font-semibold">{weather.humidity}%</span>
+      <p className="text-4xl font-semibold">
+        {Math.round(weather.main.temp)}°C
+      </p>
+
+      <div className="mt-4 grid grid-cols-3 gap-4 text-sm">
+        <div>
+          <p className="font-semibold">Humidity</p>
+          <p>{weather.main.humidity}%</p>
         </div>
-        <div className="flex flex-col items-center bg-white/5 rounded-xl p-3">
-          <span className="text-xs text-blue-200 uppercase tracking-widest mb-1">Wind</span>
-          <span className="text-xl font-semibold">{weather.wind} km/h</span>
+        <div>
+          <p className="font-semibold">Wind</p>
+          <p>{weather.wind.speed} km/h</p>
+        </div>
+        <div>
+          <p className="font-semibold">Condition</p>
+          <p>{weather.weather[0].main}</p>
         </div>
       </div>
     </div>
