@@ -7,7 +7,6 @@ import ErrorMessage from "./components/ErrorMessage";
 import RefreshButton from "./components/RefreshButton";
 
 export default function App() {
-  // 1. Change the initial state to an empty string
   const [city, setCity] = useState("");
   const { weather, forecast, error, loading, refresh } = useWeather(city);
 
@@ -19,7 +18,7 @@ export default function App() {
 
       {loading && <p className="mt-4">Loading...</p>}
       
-      {/* 2. Show a friendly prompt if no city is selected yet */}
+ 
       {!city && !loading && (
         <p className="mt-10 text-gray-600">Enter a city to see the current weather!</p>
       )}
