@@ -10,26 +10,61 @@ export default function App() {
   const [city, setCity] = useState("");
   const { weather, forecast, error, loading, refresh } = useWeather(city);
 
+  
+  const isDay =
+    weather &&
+    weather.dt > weather.sys.sunrise &&
+    weather.dt < weather.sys.sunset;
+
+  const backgroundClass = isDay
+    ? "bg-gradient-to-b from-sky-300 via-blue-400 to-blue-500 text-white"
+    : "bg-gradient-to-b from-blue-900 via-blue-800 to-blue-950 text-white";
+
   return (
-    <div className="min-h-screen bg-green-200 flex flex-col items-center p-6">
-      <h1 className="text-3xl font-bold mb-6">Weather Dashboard</h1>
+    <div className={`min-h-screen ${backgroundClass} flex flex-col items-center px-6 py-10 transition-all duration-700`}>
 
-      <SearchBar onSearch={setCity} />
+      <div className="w-full max-w-xl mb-8">
+        <SearchBar onSearch={setCity} />
+      </div>
 
-      {loading && <p className="mt-4">Loading...</p>}
-      
- 
+      {loading && (
+        <p className="mt-6 text-lg animate-pulse">Fetching weather data...</p>
+      )}
+
       {!city && !loading && (
-        <p className="mt-10 text-gray-600">Enter a city to see the current weather!</p>
+        <p className="mt-10 text-gray-100">
+          Search for a city to view weather information
+        </p>
       )}
 
       <ErrorMessage message={error} />
 
-      
-      {city && !error && (
+      {weather && !error && (
         <>
-          <WeatherCard weather={weather} />
-          <ForecastList forecast={forecast} />
+          
+          <div className="text-center mb-10">
+            <h2 className="text-4xl font-semibold">{weather.name}</h2>
+            <p className="text-8xl font-thin my-4">
+              {Math.round(weather.main.temp)}°
+            </p>
+            <p className="text-2xl capitalize">
+              {weather.weather[0].description}
+            </p>
+            <p className="mt-2">
+              H: {Math.round(weather.main.temp_max)}° / 
+              L: {Math.round(weather.main.temp_min)}°
+            </p>
+          </div>
+
+         
+          <div className="w-full max-w-4xl backdrop-blur-md bg-white/20 rounded-3xl p-6 shadow-xl mb-8">
+            <WeatherCard weather={weather} />
+          </div>
+
+          <div className="w-full max-w-4xl backdrop-blur-md bg-white/20 rounded-3xl p-6 shadow-xl mb-8">
+            <ForecastList forecast={forecast} />
+          </div>
+
           <RefreshButton onClick={refresh} />
         </>
       )}
