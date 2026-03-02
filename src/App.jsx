@@ -33,7 +33,7 @@ export default function App() {
 
       {!city && !loading && (
         <p className="mt-10 text-gray-100">
-          Search for a city to view weather information
+          Search for a city 
         </p>
       )}
 
