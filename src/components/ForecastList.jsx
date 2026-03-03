@@ -27,9 +27,14 @@ export default function ForecastList({ forecast }) {
             />
 
             
-            <span className="text-xl font-bold text-gray-800">
-              {Math.round(item.temp)}°
-            </span>
+            <div className="flex items-center gap-2 mt-1">
+              <span className="text-lg font-bold text-gray-800">
+                {Math.round(item.temp_max)}°
+              </span>
+              <span className="text-sm text-gray-400 line-through">
+                {Math.round(item.temp_min)}°
+              </span>
+            </div>
             
             
             <span className="text-[10px] text-gray-400 font-medium capitalize">
