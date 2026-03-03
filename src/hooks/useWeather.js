@@ -22,14 +22,41 @@ export default function useWeather(city) {
       setWeather(current);
 
       
-      const dailyForecast = forecastData.list
-        .filter((reading) => reading.dt_txt.includes("12:00:00"))
-        .map((item) => ({
-          day: new Date(item.dt * 1000).toLocaleDateString("en-US", { weekday: "short" }), //
-          temp: item.main?.temp ?? 0, 
-          condition: item.weather[0]?.main ?? "Clear", 
-          icon: item.weather[0]?.icon, 
-        }));
+      const groupedByDate = {};
+
+
+forecastData.list.forEach((item) => {
+  const date = new Date(item.dt * 1000).toISOString().split("T")[0];
+
+  if (!groupedByDate[date]) {
+    groupedByDate[date] = [];
+  }
+
+  groupedByDate[date].push(item);
+});
+
+
+const dailyForecast = Object.values(groupedByDate)
+  .slice(0, 5) 
+  .map((dayReadings) => {
+    const temps = dayReadings.map((r) => r.main.temp);
+
+    const representative = dayReadings.find((r) =>
+      r.dt_txt.includes("12:00:00")
+    ) || dayReadings[0];
+
+    return {
+      day: new Date(representative.dt * 1000).toLocaleDateString("en-US", {
+        weekday: "short",
+      }),
+      temp_max: Math.max(...temps),
+      temp_min: Math.min(...temps),
+      condition: representative.weather[0]?.main ?? "Clear",
+      icon: representative.weather[0]?.icon,
+    };
+  });
+
+setForecast(dailyForecast);
 
       setForecast(dailyForecast);
     } catch (err) {
