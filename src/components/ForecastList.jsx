@@ -1,9 +1,9 @@
 export default function ForecastList({ forecast }) {
-  if (!forecast || forecast.length === 0) return null;
+  if (!forecast?.length) return null;
 
   return (
-    <div className="mt-8 w-full max-w-md animate-fade-in">
-      <h3 className="text-sm font-bold text-gray-500 uppercase tracking-widest mb-4 px-2">
+    <div className="mt-8 w-full max-w-lg mx-auto">
+      <h3 className="text-sm font-bold text-gray-500 uppercase tracking-widest mb-4">
         5-Day Forecast
       </h3>
 
@@ -11,25 +11,21 @@ export default function ForecastList({ forecast }) {
         {forecast.map((item, index) => {
           const range = item.globalMax - item.globalMin;
 
-          const minPosition =
+          const minPos =
             ((item.temp_min - item.globalMin) / range) * 100;
 
-          const maxPosition =
+          const maxPos =
             ((item.temp_max - item.globalMin) / range) * 100;
 
-          const barWidth = maxPosition - minPosition;
-
           return (
-            <div
-              key={index}
-              className="flex items-center gap-4 px-2"
-            >
-             
-              <span className="w-10 text-sm font-semibold text-gray-700">
+            <div key={index} className="flex items-center gap-4">
+
+              
+              <span className="w-10 text-gray-700 font-semibold">
                 {item.day}
               </span>
 
-             
+              
               <img
                 src={`https://openweathermap.org/img/wn/${item.icon}.png`}
                 alt={item.condition}
@@ -37,25 +33,26 @@ export default function ForecastList({ forecast }) {
               />
 
               
-              <span className="w-10 text-xs text-blue-500 font-semibold">
+              <span className="text-blue-500 text-sm w-10">
                 {Math.round(item.pop * 100)}%
               </span>
 
               
-              <div className="flex-1 relative h-2 bg-gray-200 rounded-full">
+              <div className="flex-1 h-2 bg-gray-200 rounded-full relative">
                 <div
                   className="absolute h-2 rounded-full bg-gradient-to-r from-blue-400 to-red-400"
                   style={{
-                    left: `${minPosition}%`,
-                    width: `${barWidth}%`,
+                    left: `${minPos}%`,
+                    width: `${maxPos - minPos}%`
                   }}
                 />
               </div>
 
               
-              <span className="w-10 text-sm font-bold text-gray-800 text-right">
+              <span className="text-gray-800 font-bold w-10 text-right">
                 {Math.round(item.temp_max)}°
               </span>
+
             </div>
           );
         })}
