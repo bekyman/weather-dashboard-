@@ -1,27 +1,27 @@
 const API_KEY = import.meta.env.VITE_WEATHER_API_KEY;
+const BASE_URL = "https://api.openweathermap.org/data/2.5";
 
-export async function getWeather(city) {
-  try {
-    const response = await fetch(
-      `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${API_KEY}&units=metric`
-    );
+export async function getCurrentWeather(city) {
+  const res = await fetch(
+    `${BASE_URL}/weather?q=${city}&units=metric&appid=${API_KEY}`
+  );
 
-    if (!response.ok) {
-      throw new Error("City not found");
-    }
+  if (!res.ok) throw new Error("City not found");
 
-    const data = await response.json();
+  return res.json();
+}
 
-    return {
-      city: data.name,
-      temperature: data.main.temp,
-      humidity: data.main.humidity,
-      wind: data.wind.speed,
-      icon: `https://openweathermap.org/img/wn/${data.weather[0].icon}@2x.png`,
-      condition: data.weather[0].main
-    };
+export async function getForecast(city) {
+  const res = await fetch(
+    `${BASE_URL}/forecast?q=${city}&units=metric&appid=${API_KEY}`
+  );
 
-  } catch (error) {
-    throw error;
-  }
+  if (!res.ok) throw new Error("Forecast error");
+
+  const data = await res.json();
+
+  // Extract 5 daily forecasts
+  const daily = data.list.filter((item, index) => index % 8 === 0);
+
+  return daily.slice(0, 5);
 }
