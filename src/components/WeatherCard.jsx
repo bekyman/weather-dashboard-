@@ -1,30 +1,43 @@
 export default function WeatherCard({ weather }) {
   if (!weather) return null;
 
-  const icon = `https://openweathermap.org/img/wn/${weather.weather[0].icon}@2x.png`;
+  
+  const windKmh = Math.round(weather.wind.speed * 3.6); 
 
   return (
-    <div className="bg-white rounded-2xl shadow-lg p-6 w-full max-w-md text-center">
-      <h2 className="text-2xl font-bold">{weather.name}</h2>
+   
+    <div className="w-full text-center">
+      <h3 className="text-xl font-medium mb-6 border-b border-white/30 pb-2">
+        Current Details
+      </h3>
 
-      <img src={icon} className="mx-auto" />
-
-      <p className="text-4xl font-semibold">
-        {Math.round(weather.main.temp)}°C
-      </p>
-
-      <div className="mt-4 grid grid-cols-3 gap-4 text-sm">
-        <div>
-          <p className="font-semibold">Humidity</p>
-          <p>{weather.main.humidity}%</p>
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-6 text-sm">
+        <div className="flex flex-col items-center">
+          <p className="font-light text-gray-200">Feels Like</p>
+          <p className="text-2xl font-semibold mt-1">
+            {Math.round(weather.main.feels_like)}°
+          </p>
         </div>
-        <div>
-          <p className="font-semibold">Wind</p>
-          <p>{weather.wind.speed} km/h</p>
+        
+        <div className="flex flex-col items-center">
+          <p className="font-light text-gray-200">Humidity</p>
+          <p className="text-2xl font-semibold mt-1">
+            {weather.main.humidity}%
+          </p>
         </div>
-        <div>
-          <p className="font-semibold">Condition</p>
-          <p>{weather.weather[0].main}</p>
+        
+        <div className="flex flex-col items-center">
+          <p className="font-light text-gray-200">Wind</p>
+          <p className="text-2xl font-semibold mt-1">
+            {windKmh} <span className="text-base font-normal">km/h</span>
+          </p>
+        </div>
+        
+        <div className="flex flex-col items-center">
+          <p className="font-light text-gray-200">Pressure</p>
+          <p className="text-2xl font-semibold mt-1">
+            {weather.main.pressure} <span className="text-base font-normal">hPa</span>
+          </p>
         </div>
       </div>
     </div>
