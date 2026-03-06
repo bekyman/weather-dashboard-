@@ -13,8 +13,6 @@ export default function App() {
 
   const isDay =
     weather &&
-    weather.dt &&
-    weather.sys &&
     weather.dt > weather.sys.sunrise &&
     weather.dt < weather.sys.sunset;
 
@@ -31,24 +29,28 @@ export default function App() {
         <SearchBar onSearch={setCity} />
       </div>
 
+      
       {loading && (
         <p className="mt-6 text-lg animate-pulse">
           Fetching weather data...
         </p>
       )}
 
+      
       {!city && !loading && (
         <p className="mt-10 text-xl font-light text-white/80 tracking-wide">
           Search for a city to get started
         </p>
       )}
 
+      
       <ErrorMessage message={error} />
 
+      
       {weather && !error && (
         <>
+         
           <div className="text-center mb-10 flex flex-col items-center">
-            
             <h2 className="text-4xl font-semibold tracking-tight">
               {weather.name}
             </h2>
@@ -59,11 +61,10 @@ export default function App() {
 
             <div className="flex items-center justify-center gap-2">
               <img
-                src={`https://openweathermap.org/img/wn/${weather.weather[0].icon}.png`}
+                src={`https://openweathermap.org/img/wn/${weather.weather[0].icon}@2x.png`}
                 alt="weather icon"
                 className="w-12 h-12"
               />
-
               <p className="text-2xl capitalize font-medium">
                 {weather.weather[0].description}
               </p>
@@ -85,7 +86,7 @@ export default function App() {
             <ForecastList forecast={forecast} />
           </div>
 
-          
+         
           <RefreshButton onClick={refresh} />
         </>
       )}
