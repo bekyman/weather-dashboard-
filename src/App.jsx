@@ -21,7 +21,8 @@ export default function App() {
     : "bg-gradient-to-b from-blue-900 via-blue-800 to-blue-950 text-white";
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-sky-300 via-blue-400 to-indigo-500 text-white">
+    <div className={`min-h-screen flex flex-col items-center p-6 ${backgroundClass}`}>
+
       
       <div className="w-full max-w-xl mb-8">
         <SearchBar onSearch={setCity} />
@@ -44,11 +45,11 @@ export default function App() {
       
       <ErrorMessage message={error} />
 
-      
+     
       {weather && !error && (
         <>
-         
           <div className="text-center mb-10 flex flex-col items-center">
+
             <h2 className="text-4xl font-semibold tracking-tight">
               {weather.name}
             </h2>
@@ -63,7 +64,16 @@ export default function App() {
                 alt="weather icon"
                 className="w-12 h-12"
               />
-              <p className="text-2xl capitalize font-medium">
+
+              <span className="text-xl capitalize">
+                {weather.weather[0].description}
+              </span>
+            </div>
+
+          </div>
+
+         
+          <              <p className="text-2xl capitalize font-medium">
                 {weather.weather[0].description}
               </p>
             </div>
