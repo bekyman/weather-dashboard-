@@ -6,9 +6,12 @@ export async function getCurrentWeather(city) {
     `${BASE_URL}/weather?q=${city}&units=metric&appid=${API_KEY}`
   );
 
-  if (!res.ok) throw new Error("City not found");
+  if (!res.ok) {
+    const data = await res.json();
+    throw new Error(data.message || "City not found");
+  }
 
-  return res.json();
+  return await res.json();
 }
 
 export async function getForecast(city) {
@@ -16,12 +19,10 @@ export async function getForecast(city) {
     `${BASE_URL}/forecast?q=${city}&units=metric&appid=${API_KEY}`
   );
 
-  if (!res.ok) throw new Error("Forecast error");
+  if (!res.ok) {
+    const data = await res.json();
+    throw new Error(data.message || "Forecast error");
+  }
 
-  const data = await res.json();
-
-  // Extract 5 daily forecasts
-  const daily = data.list.filter((item, index) => index % 8 === 0);
-
-  return daily.slice(0, 5);
+  return await res.json();
 }
