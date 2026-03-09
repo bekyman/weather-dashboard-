@@ -3,13 +3,13 @@ export default function ForecastList({ forecast }) {
   if (!forecast || forecast.length === 0) return null;
 
   return (
-    <div className="mt-8 w-full max-w-lg mx-auto">
+    <div className="mt-8 w-full max-w-4xl mx-auto">
 
-      <h3 className="text-sm font-bold text-gray-500 uppercase tracking-widest mb-4">
+      <h3 className="text-sm font-bold text-white/80 uppercase tracking-widest mb-4 text-center">
         5-Day Forecast
       </h3>
 
-      <div className="space-y-4">
+      <div className="flex gap-6 overflow-x-auto pb-2">
 
         {forecast.map((item, index) => {
 
@@ -24,28 +24,28 @@ export default function ForecastList({ forecast }) {
           return (
             <div
               key={index}
-              className="flex items-center gap-4"
+              className="flex-shrink-0 w-32 backdrop-blur-md bg-white/20 border border-white/10 rounded-2xl p-4 shadow-lg text-center"
             >
 
               
-              <span className="w-10 text-gray-700 font-semibold">
+              <p className="font-semibold text-white">
                 {item.day}
-              </span>
+              </p>
 
               
               <img
                 src={`https://openweathermap.org/img/wn/${item.icon}.png`}
                 alt={item.condition}
-                className="w-8 h-8"
+                className="w-10 h-10 mx-auto"
               />
 
               
-              <span className="text-blue-500 text-sm w-10">
+              <p className="text-blue-200 text-sm mb-2">
                 {Math.round(item.pop * 100)}%
-              </span>
+              </p>
 
               
-              <div className="flex-1 h-2 bg-gray-200 rounded-full relative">
+              <div className="relative h-2 bg-white/20 rounded-full mb-2">
 
                 <div
                   className="absolute h-2 rounded-full bg-gradient-to-r from-blue-400 to-red-400"
@@ -58,9 +58,9 @@ export default function ForecastList({ forecast }) {
               </div>
 
               
-              <span className="text-gray-800 font-bold w-10 text-right">
+              <p className="text-white font-bold">
                 {Math.round(item.temp_max)}°
-              </span>
+              </p>
 
             </div>
           );
