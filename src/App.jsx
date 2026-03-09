@@ -73,7 +73,7 @@ export default function App() {
           </div>
 
          
-          <              <p className="text-2xl capitalize font-medium">
+                        <p className="text-2xl capitalize font-medium">
                 {weather.weather[0].description}
               </p>
             </div>
