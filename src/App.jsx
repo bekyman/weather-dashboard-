@@ -63,7 +63,7 @@ export default function App() {
                 src={`https://openweathermap.org/img/wn/${weather.weather[0].icon}@2x.png`}
                 alt="weather icon"
                 className="w-12 h-12"
-              />
+              </>
 
               <span className="text-xl capitalize">
                 {weather.weather[0].description}
