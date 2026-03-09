@@ -21,9 +21,7 @@ export default function App() {
     : "bg-gradient-to-b from-blue-900 via-blue-800 to-blue-950 text-white";
 
   return (
-    <div
-      className={`min-h-screen ${backgroundClass} flex flex-col items-center px-6 py-10 transition-colors duration-700`}
-    >
+    <div className="min-h-screen bg-gradient-to-br from-sky-300 via-blue-400 to-indigo-500 text-white">
       
       <div className="w-full max-w-xl mb-8">
         <SearchBar onSearch={setCity} />
